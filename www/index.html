@@ -5,20 +5,21 @@
     <title>Title</title>
 </head>
 <body>
-    <script type="application/javascript" src="/dist/kasimir-tpl.js"></script>
+    <script type="application/javascript" src="/dist/kasimir-form.js"></script>
 
 
-    <template id="tpl1">
-        <div *for="let data of scope.list">
-            Hello ${data} <button onclick="console.log(data)">View</button>
-            <b *if="data == 'Index 6'">This is the 6</b>
-        </div>
+    <form is="kt-form" onsubmit="console.log(this.data)" onchange="console.log('changeform', this.data)">
 
-    </template>
+        <input id="text1" aria-invalid="true" aria-hidden="true" type="text" name="text1">
+        <input id="checkbox1" type="checkbox" name="checkbox1" value="on">
+        <select id="select1" name="select1">
+            <option value="val1">val1</option>
+            <option value="val2">val2</option>
+        </select>
+        <textarea id="textarea1" name="wurst[]"></textarea>
+    </form>
 
-    <div id="target">
-        Output goes here
-    </div>
+
 
     <script>
 
@@ -26,13 +27,6 @@
             list: [],
             name: "Matthias"
         };
-
-        function rise() {
-            for (let i = 0; i < 100; i++) {
-                data.list.push("Index " + i);
-            }
-        }
-        let tpl1 = kasimir_tpl("#tpl1").renderIn("#target").observe(data);
 
     </script>
     <button onclick="rise();">Render</button>

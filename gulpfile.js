@@ -30,7 +30,7 @@ function js() {
         .pipe(order([
             "src/core/**/*.js"
         ]))
-        .pipe(concat('kasimir-form-serializer.js'))
+        .pipe(concat('kasimir-form.js'))
         .pipe(dest('www/dist', { sourcemaps: true }))
         .pipe(dest('dist', { sourcemaps: true }))
         .pipe(minify())
