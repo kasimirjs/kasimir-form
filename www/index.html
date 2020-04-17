@@ -8,7 +8,7 @@
     <script type="application/javascript" src="/dist/kasimir-form.js"></script>
 
 
-    <form is="kt-form" onsubmit="console.log(this.data)" onchange="console.log('changeform', this.data)">
+    <form is="ka-form" onsubmit="console.log(this.data)" onchange="console.log('changeform', this.data)">
 
         <input id="text1" aria-invalid="true" aria-hidden="true" type="text" name="text1">
         <input id="checkbox1" type="checkbox" name="checkbox1" value="on">
@@ -27,6 +27,9 @@
             list: [],
             name: "Matthias"
         };
+
+
+
 
     </script>
     <button onclick="rise();">Render</button>

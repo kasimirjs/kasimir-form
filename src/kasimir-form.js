@@ -41,8 +41,6 @@ class KasimirForm extends HTMLFormElement {
         this.addEventListener("submit", (e) => {
             e.stopPropagation();
             e.preventDefault();
-
-
         });
     }
 
@@ -118,17 +116,15 @@ class KasimirForm extends HTMLFormElement {
         }
     }
 
-
     disconnectedCallback() {
         this._observer.disconnect();
     }
 
     connectedCallback() {
         console.log("connected", this.outerHTML);
-
     }
 
 
 }
 
-customElements.define("kt-form", KasimirForm, {extends: "form"});
+customElements.define("ka-form", KasimirForm, {extends: "form"});
