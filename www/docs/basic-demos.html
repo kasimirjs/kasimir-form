@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kasimir Form :: Template instanciation</title>
+    <link rel="stylesheet" href="/dist/docs.css">
+    <link rel="stylesheet" href="/dist/bootstrap.css">
+</head>
+<body class="container">
+
+    <h2>Basic demos</h2>
+    <h3>Changed forms</h3>
+    <div id="ex01" class="example">
+        <form is="ka-form"
+              onsubmit="document.getElementById('out1').innerText = 'submit:' + JSON.stringify(this.$data)"
+              onchange="document.getElementById('out1').innerText = 'change:' + JSON.stringify(this.$data)">
+            <input type="text" name="text1">
+            <input type="checkbox" name="checkbox1" value="on">
+            <select name="select1">
+                <option value="val1">val1</option>
+                <option value="val2">val2</option>
+            </select>
+            <textarea name="wurst[]"></textarea>
+            <button type="submit" name="send1">send</button>
+        </form>
+        <pre id="out1"></pre>
+    </div>
+    <pre class="code"><ka-val stmt="document.getElementById('ex01').innerHTML" unindent auto afterrender="w3codecolor(this)"></ka-val></pre>
+
+
+    <h3>Set data</h3>
+    <div id="ex02" class="example">
+        <form is="ka-form" id="form02">
+            <input type="text" name="text1">
+            <input type="checkbox" name="checkbox1" value="on">
+            <select name="select1">
+                <option value="val1">val1</option>
+                <option value="val2">val2</option>
+            </select>
+            <textarea name="wurst[]"></textarea>
+            <button type="submit" name="send1">send</button>
+        </form>
+        <button class="btn btn-primary" onclick="ka_form('form02').$data = {text1: 'val1', checkbox1: 'on', select1: 'val1'}">Set data 1</button>
+        <button class="btn btn-primary" onclick="ka_form('form02').$data = {text1: 'new val', checkbox1: false, select1: 'val2'}">Set data 2</button>
+    </div>
+    <pre class="code"><ka-val stmt="document.getElementById('ex02').innerHTML" unindent auto afterrender="w3codecolor(this)"></ka-val></pre>
+
+
+    <script type="application/javascript" src="/dist/w3codecolor.js"></script>
+    <script type="application/javascript" src="/dist/kasimir-tpl.js"></script>
+    <script type="application/javascript" src="/dist/kasimir-form.js"></script>
+</body>
+</html>

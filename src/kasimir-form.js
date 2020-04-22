@@ -13,29 +13,6 @@ class KasimirForm extends HTMLFormElement {
         };
         this._debounder = null;
         this._formEls = [];
-        this._observer = new MutationObserver((e) => {
-            this._formEls.length = 0;
-            for (let el of this.querySelectorAll("input,select,textarea")) {
-                this._formEls.push(el);
-                if (el._kasiFormI === true)
-                    continue;
-                el._kasiFormI = true;
-                if (el instanceof HTMLSelectElement) {
-                    el.addEventListener("change", (e) => {
-                        this.dispatchEvent(new Event("change"));
-                    });
-                } else {
-                    el.addEventListener("keyup", (e) => {
-                        window.clearTimeout(this._debounder);
-                        if (e.key === "Enter") {
-                            return;
-                        }
-                        this._debounder = window.setTimeout(() => {this.dispatchEvent(new Event("change"))}, this.params.debounce)
-                    })
-                }
-            }
-        });
-        this._observer.observe(this, {childList: true, subtree: true});
 
         var self = this;
         this.addEventListener("submit", (e) => {
@@ -43,6 +20,32 @@ class KasimirForm extends HTMLFormElement {
             e.preventDefault();
         });
     }
+
+
+    _updateElCon() {
+        for (let el of this.querySelectorAll("input,select,textarea")) {
+
+            this._formEls.push(el);
+            if (el._kasiFormI === true)
+                continue;
+            el._kasiFormI = true;
+            if (el instanceof HTMLSelectElement) {
+                el.addEventListener("change", (e) => {
+                    this.dispatchEvent(new Event("change"));
+                });
+            } else {
+                el.addEventListener("keyup", (e) => {
+                    window.clearTimeout(this._debounder);
+                    if (e.key === "Enter") {
+                        return;
+                    }
+                    this._debounder = window.setTimeout(() => {this.dispatchEvent(new Event("change"))}, this.params.debounce)
+                })
+            }
+        }
+    }
+
+
 
     /**
      * Get the form data as object with key-value pair
@@ -57,7 +60,7 @@ class KasimirForm extends HTMLFormElement {
      *
      * @return {object}
      */
-    get data() {
+    get $data() {
         let getVal = (el) => {
             switch (el.tagName) {
                 case "INPUT":
@@ -93,25 +96,18 @@ class KasimirForm extends HTMLFormElement {
      *
      * @param {object} newData
      */
-    set data (newData) {
+    set $data (newData) {
         this._data = newData;
         for (let el of this._formEls) {
-            switch (form.tagName) {
-                case "INPUT":
-                    switch (form.type) {
-                        case "checkbox":
-                        case "radio":
-                            if (newValue == form.value) {
-                                form.checked = true;
-                            } else {
-                                form.checked = false;
-                            }
-                            return;
-                    }
-                case "SELECT":
-                case "TEXTAREA":
-                    form.value = newValue;
-                    break;
+            let cdata = newData[el.name];
+            if (el.tagName === "INPUT" && el.type === "checkbox" || el.type === "radio") {
+                if (cdata === el.value) {
+                    el.checked = true;
+                } else {
+                    el.checked = false;
+                }
+            } else {
+                el.value = cdata;
             }
         }
     }
@@ -121,7 +117,12 @@ class KasimirForm extends HTMLFormElement {
     }
 
     connectedCallback() {
-        console.log("connected", this.outerHTML);
+
+        this._observer = new MutationObserver((e) => {
+            this._updateElCon();
+        });
+        this._observer.observe(this, {childList: true, subtree: true});
+        this._updateElCon();
     }
 
 

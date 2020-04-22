@@ -7,32 +7,10 @@
 <body>
     <script type="application/javascript" src="/dist/kasimir-form.js"></script>
 
+<ul>
+    <li><a href="docs/basic-demos.html">Basic demos</a></li>
 
-    <form is="ka-form" onsubmit="console.log(this.data)" onchange="console.log('changeform', this.data)">
-
-        <input id="text1" aria-invalid="true" aria-hidden="true" type="text" name="text1">
-        <input id="checkbox1" type="checkbox" name="checkbox1" value="on">
-        <select id="select1" name="select1">
-            <option value="val1">val1</option>
-            <option value="val2">val2</option>
-        </select>
-        <textarea id="textarea1" name="wurst[]"></textarea>
-    </form>
-
-
-
-    <script>
-
-        const data = {
-            list: [],
-            name: "Matthias"
-        };
-
-
-
-
-    </script>
-    <button onclick="rise();">Render</button>
+</ul>
 
 </body>
 </html>
