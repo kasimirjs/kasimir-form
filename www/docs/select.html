@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kasimir Form :: Template instanciation</title>
+    <link rel="stylesheet" href="/dist/docs.css">
+    <link rel="stylesheet" href="/dist/bootstrap.css">
+</head>
+<body class="container">
+
+    <h2>Basic demos</h2>
+    <h3>Changed forms</h3>
+    <div id="ex01" class="example">
+        <select $options="" is="ka-select" id="sel1"></select>
+
+        <script>
+            let sel1 = document.getElementById("sel1");
+            sel1.$options = ["A", "B", "C"];
+            sel1.$value = "B";
+        </script>
+        <button onclick="sel1.$options = ['a'];">x</button>
+        <button onclick="sel1.$value = 'C';">x</button>
+        <pre id="out1"></pre>
+    </div>
+    <pre class="code"><ka-val stmt="document.getElementById('ex01').innerHTML" unindent auto afterrender="w3codecolor(this)"></ka-val></pre>
+
+
+
+    <script type="application/javascript" src="/dist/w3codecolor.js"></script>
+    <script type="application/javascript" src="/dist/kasimir-tpl.js"></script>
+    <script type="application/javascript" src="/dist/kasimir-form.js"></script>
+</body>
+</html>
