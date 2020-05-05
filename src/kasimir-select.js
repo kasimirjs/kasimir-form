@@ -9,7 +9,7 @@ class KasimirSelect extends HTMLSelectElement {
 
 
     _updateOptions() {
-        console.log("updateOptions()");
+        //console.log("updateOptions()");
         this.innerHTML = "";
         for(let option of this.__$options) {
             let optEl = document.createElement("option");
