@@ -100,6 +100,8 @@ class KasimirForm extends HTMLFormElement {
         this._data = newData;
         for (let el of this._formEls) {
             let cdata = newData[el.name];
+            if (typeof cdata === "undefined")
+                cdata = "";
             if (el.tagName === "INPUT" && el.type === "checkbox" || el.type === "radio") {
                 if (cdata === el.value) {
                     el.checked = true;
