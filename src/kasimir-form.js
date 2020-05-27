@@ -125,6 +125,9 @@ class KasimirForm extends HTMLFormElement {
         });
         this._observer.observe(this, {childList: true, subtree: true});
         this._updateElCon();
+        if (this.hasAttribute("init")) {
+            eval(this.hasAttribute("init"));
+        }
     }
 
 

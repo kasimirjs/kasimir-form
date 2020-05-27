@@ -53,6 +53,10 @@ class KasimirSelect extends HTMLSelectElement {
             this.$options = iniOptions;
         if (typeof value !== "undefined")
             this.$value = value;
+
+        if (this.hasAttribute("init")) {
+            eval(this.hasAttribute("init"));
+        }
     }
 
 
