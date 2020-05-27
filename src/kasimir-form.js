@@ -119,18 +119,21 @@ class KasimirForm extends HTMLFormElement {
     }
 
     connectedCallback() {
-
         this._observer = new MutationObserver((e) => {
             this._updateElCon();
         });
         this._observer.observe(this, {childList: true, subtree: true});
         this._updateElCon();
         if (this.hasAttribute("init")) {
-            eval(this.hasAttribute("init"));
+            let code = this.getAttribute("init")
+            try {
+                eval(code);
+            } catch  (e) {
+                console.error(e, this);
+                throw new Error(`eval("${code}") failed: ${e}`);
+            }
         }
     }
-
-
 }
 
 customElements.define("ka-form", KasimirForm, {extends: "form"});

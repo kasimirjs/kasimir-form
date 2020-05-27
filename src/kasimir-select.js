@@ -10,12 +10,19 @@ class KasimirSelect extends HTMLSelectElement {
 
     _updateOptions() {
         //console.log("updateOptions()");
+        let val_key = "value";
+        let text_key = "text";
+        if (this.hasAttribute("value_key"))
+            val_key = this.getAttribute("value_key");
+        if (this.hasAttribute("text_key"))
+            text_key = this.getAttribute("text_key");
+
         this.innerHTML = "";
         for(let option of this.__$options) {
             let optEl = document.createElement("option");
             if (typeof option === "object") {
-                optEl.value = option.value;
-                optEl.innerText = option.text;
+                optEl.value = option[val_key];
+                optEl.innerText = option[text_key];
             } else {
                 optEl.value = option;
                 optEl.innerText = option;
@@ -55,7 +62,13 @@ class KasimirSelect extends HTMLSelectElement {
             this.$value = value;
 
         if (this.hasAttribute("init")) {
-            eval(this.hasAttribute("init"));
+            let code = this.getAttribute("init")
+            try {
+                eval(code);
+            } catch  (e) {
+                console.error(e, this);
+                throw new Error(`eval("${code}") failed: ${e}`);
+            }
         }
     }
 
