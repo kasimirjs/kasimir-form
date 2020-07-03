@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Array Forms - KasimirJS</title>
+    <link rel="stylesheet" href="/dist/docs.css">
+    <link rel="stylesheet" href="/dist/bootstrap.css">
+</head>
+<body class="container">
+
+    <h2>Basic demos</h2>
+    <h3>Load options from http query</h3>
+    <div id="ex01" class="example">
+        <div id="result1"></div>
+
+        <form is="ka-form" id="form1">
+            <input name="input1[]">
+            <input name="input1[]">
+            <input name="input1[]">
+
+            <button onclick="document.getElementById('result1').innerHTML = JSON.stringify(document.getElementById('form1').$data)">Get</button>
+            <button onclick="document.getElementById('form1').$data = {input1: ['val1', 'val2']}">Set</button>
+        </form>
+    </div>
+    <pre class="code"><ka-val stmt="document.getElementById('ex01').innerHTML" unindent auto afterrender="w3codecolor(this)"></ka-val></pre>
+
+
+
+    <script type="application/javascript" src="/dist/w3codecolor.js"></script>
+    <script type="application/javascript" src="/dist/kasimir-http-request.js"></script>
+    <script type="application/javascript" src="/dist/kasimir-tpl.js"></script>
+    <script type="application/javascript" src="/dist/kasimir-form.js"></script>
+</body>
+</html>

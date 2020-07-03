@@ -80,6 +80,8 @@ class KasimirForm extends HTMLFormElement {
      * @return {object}
      */
     get $data() {
+        let data = {};
+
         let getVal = (el) => {
             switch (el.tagName) {
                 case "INPUT":
@@ -99,9 +101,18 @@ class KasimirForm extends HTMLFormElement {
         for (let el of this._formEls) {
             if (el.name === "")
                 continue;
-            this._data[el.name] = getVal(el);
+            if (el.name.endsWith("[]")) {
+                // Process Array input
+                let name = el.name.slice(0, -2);
+                if ( ! Array.isArray(data[name]))
+                    data[name] = [];
+                data[name].push(getVal(el));
+            } else {
+                data[el.name] = getVal(el);
+            }
+
         }
-        return this._data;
+        return data;
     }
 
     /**
@@ -119,9 +130,28 @@ class KasimirForm extends HTMLFormElement {
         // Skip sending onchange event on $data update
         this._skipSendChangeEvt = true;
 
+        let cdata, name = null;
+        let arrIndex = {};
+
         this._data = newData;
         for (let el of this._formEls) {
-            let cdata = newData[el.name];
+            name = el.name;
+
+            if (name.endsWith("[]")) {
+                name = name.slice(0, -2);
+                if (typeof arrIndex[name] === "undefined")
+                    arrIndex[name] = 0;
+                cdata = newData[name];
+                if (Array.isArray(cdata)) {
+                    cdata = cdata[arrIndex[name]++];
+                } else {
+                    cdata = "";
+                }
+            } else {
+                let name = el.name;
+                let cdata = newData[name];
+            }
+
             if (typeof cdata === "undefined")
                 cdata = "";
             if (el.tagName === "INPUT" && el.type === "checkbox" || el.type === "radio") {
