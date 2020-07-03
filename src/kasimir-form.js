@@ -72,7 +72,7 @@ class KasimirForm extends HTMLFormElement {
      * ```
      * Example:
      *
-     * let data = ka_form("formId").data;
+     * let data = ka_form("formId").$data;
      * for (let key in data)
      *      console.log (`data[${name}]=${data[name]}`);
      * ```
@@ -99,19 +99,25 @@ class KasimirForm extends HTMLFormElement {
         };
 
         for (let el of this._formEls) {
-            if (el.name === "")
+            if (el.name === "" && el.id === "")
                 continue;
-            if (el.name.endsWith("[]")) {
+
+            let name = el.name;
+            if (name === "")
+                name = el.id;
+
+            if (name.endsWith("[]")) {
                 // Process Array input
-                let name = el.name.slice(0, -2);
+                name = el.name.slice(0, -2);
                 if ( ! Array.isArray(data[name]))
                     data[name] = [];
                 data[name].push(getVal(el));
-            } else {
-                data[el.name] = getVal(el);
-            }
+                continue;
 
+            }
+            data[name] = getVal(el);
         }
+        this._data = data;
         return data;
     }
 
@@ -135,7 +141,14 @@ class KasimirForm extends HTMLFormElement {
 
         this._data = newData;
         for (let el of this._formEls) {
+            if (el.name === "" && el.id === "")
+                continue;
+
             name = el.name;
+            if (name === "")
+                name = el.id;
+
+            let cdata = "";
 
             if (name.endsWith("[]")) {
                 name = name.slice(0, -2);
@@ -144,12 +157,9 @@ class KasimirForm extends HTMLFormElement {
                 cdata = newData[name];
                 if (Array.isArray(cdata)) {
                     cdata = cdata[arrIndex[name]++];
-                } else {
-                    cdata = "";
                 }
             } else {
-                let name = el.name;
-                let cdata = newData[name];
+                cdata = newData[name];
             }
 
             if (typeof cdata === "undefined")
@@ -178,7 +188,7 @@ class KasimirForm extends HTMLFormElement {
         this._observer.observe(this, {childList: true, subtree: true});
         this._updateElCon();
         if (this.hasAttribute("init")) {
-            let code = this.getAttribute("init")
+            let code = this.getAttribute("init");
             try {
                 eval(code);
             } catch  (e) {
