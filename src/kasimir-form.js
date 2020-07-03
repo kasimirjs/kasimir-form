@@ -30,9 +30,15 @@ class KasimirForm extends HTMLFormElement {
     }
 
 
+    /**
+     * Scan the form content tree for form elements and register callbacks
+     *
+     *
+     * @private
+     */
     _updateElCon() {
+        this._formEls = [];
         for (let el of this.querySelectorAll("input,select,textarea")) {
-
             this._formEls.push(el);
             if (el._kasiFormI === true)
                 continue;
